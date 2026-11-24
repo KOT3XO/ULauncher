@@ -1,0 +1,21 @@
+{
+  "name": "ulauncher",
+  "version": "1.0.0",
+  "description": "Minecraft launcher зі збірками, модами, шейдерами, текстурами та модпаками",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "license": "MIT",
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "minecraft-launcher-core": "^3.18.2",
+    "msmc": "^5.0.5"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0"
+  },
+  "allowScripts": {
+    "electron@33.4.11": true
+  }
+}

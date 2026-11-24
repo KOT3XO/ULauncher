@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+  <title>ULauncher</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo"><span class="logo-cube"></span>ULauncher</div>
+    <nav>
+      <button class="nav-btn active" data-view="instances">Збірки</button>
+      <button class="nav-btn" data-view="modpacks">Модпаки</button>
+      <button class="nav-btn" data-view="settings">Налаштування</button>
+    </nav>
+    <button class="account-card" id="accountCard">
+      <div class="avatar" id="accAvatar">?</div>
+      <div class="acc-text">
+        <div class="acc-name" id="accName">Не авторизовано</div>
+        <div class="acc-mode" id="accMode">Натисніть, щоб увійти</div>
+      </div>
+    </button>
+  </aside>
+
+  <main>
+    <!-- Список збірок -->
+    <section class="view active" id="view-instances">
+      <header class="view-head">
+        <h1>Мої збірки</h1>
+        <button class="btn primary" id="newInstanceBtn">+ Нова збірка</button>
+      </header>
+      <div class="grid" id="instanceGrid"></div>
+      <div class="empty" id="instancesEmpty" hidden>
+        <p>Ще немає жодної збірки.</p>
+        <p class="muted">Створіть власну збірку або встановіть готовий модпак.</p>
+      </div>
+    </section>
+
+    <!-- Сторінка однієї збірки -->
+    <section class="view" id="view-instance">
+      <header class="inst-head">
+        <button class="btn ghost" id="backBtn">← Назад</button>
+        <div class="inst-title">
+          <h1 id="instName"></h1>
+          <div class="muted" id="instMeta"></div>
+        </div>
+        <div class="inst-actions">
+          <button class="btn" id="instFolderBtn" title="Відкрити папку збірки">Папка</button>
+          <button class="btn" id="instEditBtn">Налаштувати</button>
+          <button class="btn play" id="instPlayBtn">Грати</button>
+        </div>
+      </header>
+      <div class="tabs">
+        <button class="tab active" data-type="mod">Моди</button>
+        <button class="tab" data-type="shader">Шейдери</button>
+        <button class="tab" data-type="resourcepack">Ресурспаки</button>
+      </div>
+      <div class="hint" id="contentHint" hidden></div>
+      <div class="content-split">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Встановлено <span class="count" id="installedCount"></span></h2>
+            <div>
+              <button class="btn small" id="addFileBtn">Додати файл</button>
+              <button class="btn small ghost" id="openSubFolderBtn">Папка</button>
+            </div>
+          </div>
+          <div class="list" id="installedList"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Каталог Modrinth</h2>
+          </div>
+          <div class="search-row">
+            <input type="search" id="contentSearch" placeholder="Пошук..." />
+            <select id="contentSort">
+              <option value="relevance">Релевантні</option>
+              <option value="downloads">Популярні</option>
+              <option value="updated">Оновлені</option>
+              <option value="newest">Нові</option>
+            </select>
+          </div>
+          <div class="list" id="catalogList"></div>
+          <button class="btn ghost more" id="catalogMore" hidden>Показати ще</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Модпаки -->
+    <section class="view" id="view-modpacks">
+      <header class="view-head">
+        <h1>Модпаки</h1>
+        <button class="btn" id="importMrpackBtn">Імпорт .mrpack</button>
+      </header>
+      <div class="search-row wide">
+        <input type="search" id="mpSearch" placeholder="Пошук модпаків на Modrinth..." />
+        <select id="mpVersion"><option value="">Усі версії</option></select>
+        <select id="mpLoader">
+          <option value="">Усі лоадери</option>
+          <option value="fabric">Fabric</option>
+          <option value="quilt">Quilt</option>
+          <option value="forge">Forge</option>
+          <option value="neoforge">NeoForge</option>
+        </select>
+        <select id="mpSort">
+          <option value="relevance">Релевантні</option>
+          <option value="downloads">Популярні</option>
+          <option value="updated">Оновлені</option>
+        </select>
+      </div>
+      <div class="list cards" id="mpList"></div>
+      <button class="btn ghost more" id="mpMore" hidden>Показати ще</button>
+    </section>
+
+    <!-- Налаштування -->
+    <section class="view" id="view-settings">
+      <header class="view-head"><h1>Налаштування</h1></header>
+      <div class="settings">
+        <label class="field">
+          <span>Оперативна пам'ять за замовчуванням: <b id="ramLabel"></b></span>
+          <input type="range" id="ramRange" min="1024" step="512" />
+          <small class="muted">Можна змінити окремо для кожної збірки.</small>
+        </label>
+        <label class="field">
+          <span>Шлях до Java (необов'язково)</span>
+          <input type="text" id="javaPath" placeholder="Автоматично — лаунчер сам завантажить потрібну Java" />
+        </label>
+        <label class="check">
+          <input type="checkbox" id="closeOnLaunch" /> Ховати лаунчер під час гри
+        </label>
+        <label class="check">
+          <input type="checkbox" id="showSnapshots" /> Показувати снапшоти у списку версій
+        </label>
+        <div><button class="btn" id="openDataBtn">Відкрити папку лаунчера</button></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Нижня панель -->
+  <footer class="statusbar">
+    <div class="status-text" id="statusText">Готово</div>
+    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="btn small ghost" id="consoleBtn">Консоль</button>
+  </footer>
+  <div class="console" id="console" hidden>
+    <div class="console-head">
+      <span>Консоль</span>
+      <div>
+        <button class="btn small ghost" id="consoleClear">Очистити</button>
+        <button class="btn small ghost" id="consoleClose">✕</button>
+      </div>
+    </div>
+    <pre id="consoleOut"></pre>
+  </div>
+
+  <!-- Модальне вікно -->
+  <div class="modal-bg" id="modalBg" hidden>
+    <div class="modal" id="modal"></div>
+  </div>
+  <div class="toasts" id="toasts"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
